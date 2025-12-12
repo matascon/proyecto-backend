@@ -1,10 +1,30 @@
 import express from "express";
-import { createBook, getAllBooks } from "../controllers/book.controllers.js";
-import { uploadImage } from "../../middlewares/file.middleware.js";
+import {
+  createBook,
+  deleteBook,
+  getAllBooks,
+  getBook,
+  updateBook,
+} from "../controllers/book.controllers.js";
+import uploadImage from "../../middlewares/file.middleware.js";
+import isAuth from "../../middlewares/isAuth.middleware.js";
+import isAdmin from "../../middlewares/isAdmin.middleware.js";
+import { validateFormBook } from "../../middlewares/validateForm.middleware.js";
 
 const bookRouter = express.Router();
 
-bookRouter.post("/createBook", uploadImage.single("img"), createBook);
 bookRouter.get("/getAllBooks", getAllBooks);
+bookRouter.get("/getBook/:id", getBook);
+bookRouter.post(
+  "/createBook",
+  [isAuth, isAdmin, uploadImage.single("img"), validateFormBook],
+  createBook
+);
+bookRouter.put(
+  "/updateBook/:id",
+  [isAuth, isAdmin, uploadImage.single("img"), validateFormBook],
+  updateBook
+);
+bookRouter.delete("/deleteBook/:id", [isAuth, isAdmin], deleteBook);
 
 export default bookRouter;
