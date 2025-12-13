@@ -13,8 +13,8 @@ import { validateFormBook } from "../../middlewares/validateForm.middleware.js";
 
 const bookRouter = express.Router();
 
-bookRouter.get("/getAllBooks", getAllBooks);
-bookRouter.get("/getBook/:id", getBook);
+bookRouter.get("/getAllBooks", getAllBooks); // ESTAS DOS RUTAS SON
+bookRouter.get("/getBook/:id", getBook); // ACCESIBLES PARA CALQUIER PERSONA
 bookRouter.post(
   "/createBook",
   [isAuth, isAdmin, uploadImage.single("img"), validateFormBook],

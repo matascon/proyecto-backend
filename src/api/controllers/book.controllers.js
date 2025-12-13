@@ -89,9 +89,10 @@ export const updateBook = async (req, res, next) => {
       img: imgUrl,
     });
 
+    await Book.findByIdAndDelete(id);
     const bookSaved = await newBook.save();
 
-    const bookUpdated = await User.findById(bookSaved._id).populate("books");
+    const bookUpdated = await Book.findById(bookSaved._id);
 
     return res.status(201).json({
       message: "Book updated",
