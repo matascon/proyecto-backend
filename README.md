@@ -1,6 +1,4 @@
-✅​ ❌ ​📚​
-
-# 📚 Welcome to my first API REST with Node.js
+# 📚 Welcome to my first RESTful API with Node.js
 
 ## About the project
 
