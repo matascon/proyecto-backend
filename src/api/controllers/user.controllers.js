@@ -33,14 +33,18 @@ export const createUser = async (req, res, next) => {
     const checkUserExists = await User.findOne({ email: req.body.email });
     let imgUrl = null;
 
+    if (req.file) {
+      imgUrl = req.file.secure_url || req.file.path;
+    }
+
     if (checkUserExists) {
+      if (imgUrl) {
+        deleteImgCloudinary(imgUrl);
+      }
+
       return res
         .status(400)
         .json({ message: `this email: ${req.body.email} exists` });
-    }
-
-    if (req.file) {
-      imgUrl = req.file.secure_url || req.file.path;
     }
 
     const books = Array.isArray(req.body.books)
@@ -107,6 +111,12 @@ export const updateUser = async (req, res, next) => {
     let imgUrl = user.img;
 
     if (req.user.role === "user" && req.body.role === "admin") {
+      if (req.file) {
+        imgUrl = req.file.secure_url || req.file.path;
+
+        deleteImgCloudinary(imgUrl);
+      }
+
       return res.status(401).json({ message: "Unauthorized to change role" });
     }
 

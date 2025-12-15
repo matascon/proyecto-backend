@@ -30,5 +30,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
+  console.log(`Listening in http://localhost:${PORT}`);
 });

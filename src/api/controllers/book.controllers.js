@@ -31,14 +31,18 @@ export const createBook = async (req, res, next) => {
     const checkBookExists = await Book.findOne({ title: req.body.title });
     let imgUrl = null;
 
+    if (req.file) {
+      imgUrl = req.file.secure_url || req.file.path;
+    }
+
     if (checkBookExists) {
+      if (imgUrl) {
+        deleteImgCloudinary(imgUrl);
+      }
+
       return res
         .status(400)
         .json({ message: `this title: ${req.body.title} exists` });
-    }
-
-    if (req.file) {
-      imgUrl = req.file.secure_url || req.file.path;
     }
 
     const newBook = new Book({
